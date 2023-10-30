@@ -1,32 +1,27 @@
-## Домашние задания курса [OTUS «Разработчик Golang»](https://otus.ru/lessons/golang-professional/?utm_source=github&utm_medium=free&utm_campaign=otus)
-1) [«Hello, OTUS!»](./hw01_hello_otus)
-2) [«Распаковка строки»](./hw02_unpack_string)
-3) [«Частотный анализ»](./hw03_frequency_analysis)
-4) [«LRU-кэш»](./hw04_lru_cache)
-5) [«Параллельное исполнение»](./hw05_parallel_execution)
-6) [«Пайплайн»](./hw06_pipeline_execution)
-7) [«Утилита для копирования файлов»](./hw07_file_copying)
-8) [«Утилита envdir»](./hw08_envdir_tool)
-9) [«Валидатор структур»](./hw09_struct_validator)
-10) [«Оптимизация программы»](./hw10_program_optimization)
-11) [«Клиент TELNET»](./hw11_telnet_client)
-12) [«Заготовка сервиса Календарь»](./hw12_13_14_15_calendar/docs/12_README.md)
-13) [«API к Календарю»](./hw12_13_14_15_calendar/docs/13_README.md)
-14) [«Кроликизация Календаря»](./hw12_13_14_15_calendar/docs/14_README.md)
-15) [«Докеризация и интеграционное тестирование Календаря»](./hw12_13_14_15_calendar/docs/15_README.md)
-16) [«Проект»](https://github.com/OtusGolang/final_project)
+## «Распаковка строки»
 
----
-[Инструкция по сдаче ДЗ](https://github.com/OtusGolang/home_work/wiki#%D0%A1%D1%82%D1%83%D0%B4%D0%B5%D0%BD%D1%82%D0%B0%D0%BC).
+Необходимо написать Go функцию, осуществляющую примитивную распаковку строки,
+содержащую повторяющиеся символы/руны, например:
+* "a4bc2d5e" => "aaaabccddddde"
+* "abcd" => "abcd"
+* "3abc" => "" (некорректная строка)
+* "45" => "" (некорректная строка)
+* "aaa10b" => "" (некорректная строка)
+* "aaa0b" => "aab"
+* "" => ""
+* "d\n5abc" => "d\n\n\n\n\nabc"
 
----
-Используемая версия [golangci-lint](https://golangci-lint.run/usage/install/#other-ci): <b>v1.50.1</b>
-```
-$ golangci-lint version
-golangci-lint has version 1.50.1 built from 8926a95 on 2022-10-22T10:48:48Z
-```
+Как видно из примеров, разрешено использование цифр, но не чисел.
 
----
-Авторы ДЗ:
-- [Дмитрий Смаль](https://github.com/mialinx)
-- [Антон Телышев](https://github.com/Antonboom)
+В случае, если была передана некорректная строка, функция должна возвращать ошибку.
+При необходимости можно выделять дополнительные функции / ошибки.
+
+**(*) Дополнительное задание: поддержка экранирования через `\`:**
+
+**(обратите внимание на косые кавычки)**
+* \`qwe\4\5\` => "qwe45"
+* \`qwe\45\` => "qwe44444"
+* \`qwe\\\5\` => \`qwe\\\\\\\\\\`
+* \`qw\ne\`  => "" (некорректная строка)
+
+Как видно из примера, заэкранировать можно только цифру или слэш.
