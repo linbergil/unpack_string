@@ -61,7 +61,7 @@ func Unpack(str string) (string, error) {
 			result.WriteRune(char)
 			currentState = start
 		case escape:
-			// Если текущий символ - обратный слэш, добавляем его в результат.
+			// Если предыдущий символ - обратный слэш, добавляем текущий в результат.
 			result.WriteRune(char)
 			currentState = start
 		}
