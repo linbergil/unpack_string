@@ -61,9 +61,9 @@ func Unpack(str string) (string, error) {
 			}
 		case number:
 			if unicode.IsDigit(char) {
-				var n = strconv.Itoa(numOfRepeat)
-				numOfRepeat, _ = strconv.Atoi(n + string(char))
-				repStr, err := repeatRune(runeArray[i-2], numOfRepeat)
+				var n = strconv.Itoa(numOfRepeat) + string(char)
+				numOfRepeat, _ = strconv.Atoi(n)
+				repStr, err := repeatRune(runeArray[i-len(n)], numOfRepeat)
 				if err != nil {
 					// Если функция repeatRune возвращает ошибку, удаляем последний символ из результата.
 					res := result.String()

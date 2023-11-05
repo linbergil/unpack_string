@@ -56,6 +56,7 @@ func TestStringContainsNumber(t *testing.T) {
 	}{
 		{input: "aaa10b", expected: "aaaaaaaaaaaab"},
 		{input: "a12b4", expected: "aaaaaaaaaaaabbbb"},
+		{input: "a100", expected: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
 	}
 	for _, tc := range testStrings {
 		t.Run(tc.input, func(t *testing.T) {
