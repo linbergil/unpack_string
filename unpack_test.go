@@ -39,12 +39,29 @@ func TestUnpack(t *testing.T) {
 }
 
 func TestUnpackInvalidString(t *testing.T) {
-	invalidStrings := []string{"3abc", "45", "aaa10b", "1"}
+	invalidStrings := []string{"3abc", "45", "1"}
 	for _, tc := range invalidStrings {
 		tc := tc
 		t.Run(tc, func(t *testing.T) {
 			_, err := Unpack(tc)
 			require.Truef(t, errors.Is(err, ErrInvalidString), "actual error %q", err)
+		})
+	}
+}
+
+func TestStringContainsNumber(t *testing.T) {
+	testStrings := []struct {
+		input    string
+		expected string
+	}{
+		{input: "aaa10b", expected: "aaaaaaaaaaaab"},
+		{input: "a12b4", expected: "aaaaaaaaaaaabbbb"},
+	}
+	for _, tc := range testStrings {
+		t.Run(tc.input, func(t *testing.T) {
+			result, err := Unpack(tc.input)
+			require.NoError(t, err)
+			require.Equal(t, tc.expected, result)
 		})
 	}
 }
