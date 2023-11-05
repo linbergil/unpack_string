@@ -38,6 +38,13 @@ func Unpack(str string) (string, error) {
 			if unicode.IsDigit(char) {
 				currentState = number
 				numOfRepeat, _ = strconv.Atoi(string(char))
+				repStr, err := repeatRune(runeArray[i-1], numOfRepeat)
+				if err != nil {
+					res := result.String()
+					result.Reset()
+					result.WriteString(res[0 : len(res)-1])
+				}
+				result.WriteString(repStr)
 			} else if char == '\\' {
 				currentState = escape
 			} else {
@@ -48,13 +55,6 @@ func Unpack(str string) (string, error) {
 			if unicode.IsDigit(char) {
 				return "", ErrInvalidString
 			}
-			repStr, err := repeatRune(runeArray[i-2], numOfRepeat)
-			if err != nil {
-				res := result.String()
-				result.Reset()
-				result.WriteString(res[0 : len(res)-1])
-			}
-			result.WriteString(repStr)
 			currentState = start
 			result.WriteRune(char)
 		case escape:
