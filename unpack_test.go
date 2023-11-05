@@ -19,6 +19,8 @@ func TestUnpack(t *testing.T) {
 		{input: "a2", expected: "aa"},
 		{input: "aa", expected: "aa"},
 		{input: "a", expected: "a"},
+		{input: "日本語", expected: "日本語"},
+		{input: "日本語2", expected: "日本語語"},
 		{input: "d\n5abc", expected: "d\n\n\n\n\nabc"},
 		{input: `qwe\4\5`, expected: `qwe45`},
 		{input: `qwe\45`, expected: `qwe44444`},
