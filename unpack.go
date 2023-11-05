@@ -45,7 +45,8 @@ func Unpack(str string) (string, error) {
 			if unicode.IsDigit(char) {
 				currentState = number
 				numOfRepeat, _ = strconv.Atoi(string(char))
-				repStr, err := repeatRune(runeArray[i-1], numOfRepeat)
+				n := strconv.Itoa(numOfRepeat)
+				repStr, err := repeatRune(runeArray[i-len(n)], numOfRepeat)
 				if err != nil {
 					// Если функция repeatRune возвращает ошибку, удаляем последний символ из результата.
 					res := result.String()
@@ -60,7 +61,9 @@ func Unpack(str string) (string, error) {
 				currentState = start
 			}
 		case number:
-			if unicode.IsDigit(char) {
+			if char == '\\' {
+				currentState = escape
+			} else if unicode.IsDigit(char) {
 				var n = strconv.Itoa(numOfRepeat) + string(char)
 				numOfRepeat, _ = strconv.Atoi(n)
 				repStr, err := repeatRune(runeArray[i-len(n)], numOfRepeat)
@@ -71,6 +74,7 @@ func Unpack(str string) (string, error) {
 					result.WriteString(res[0 : len(res)-1])
 				}
 				result.WriteString(repStr)
+
 			} else {
 				result.WriteRune(char)
 				currentState = start
