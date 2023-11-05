@@ -27,6 +27,12 @@ func Unpack(str string) (string, error) {
 
 	var runeArray = []rune(str)
 
+	//re, _ := regexp.Compile(`^\d|\d{2,}`)
+	//
+	//if re.MatchString(str) == true {
+	//	return "", ErrInvalidString
+	//}
+
 	if len(runeArray) > 0 && unicode.IsDigit(runeArray[0]) {
 		// Если первый символ является цифрой, возвращаем ошибку "недопустимой строки".
 		return "first rune is digit", ErrInvalidString
@@ -55,11 +61,21 @@ func Unpack(str string) (string, error) {
 			}
 		case number:
 			if unicode.IsDigit(char) {
-				// Если после цифры идет ещё одна цифра, возвращаем ошибку "недопустимой строки".
-				return "", ErrInvalidString
+				var n = strconv.Itoa(numOfRepeat)
+				numOfRepeat, _ = strconv.Atoi(n + string(char))
+				repStr, err := repeatRune(runeArray[i-2], numOfRepeat)
+				if err != nil {
+					// Если функция repeatRune возвращает ошибку, удаляем последний символ из результата.
+					res := result.String()
+					result.Reset()
+					result.WriteString(res[0 : len(res)-1])
+				}
+				result.WriteString(repStr)
+			} else {
+				result.WriteRune(char)
+				currentState = start
 			}
-			result.WriteRune(char)
-			currentState = start
+
 		case escape:
 			// Если предыдущий символ - обратный слэш, добавляем текущий в результат.
 			result.WriteRune(char)
