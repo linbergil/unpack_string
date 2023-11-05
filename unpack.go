@@ -21,9 +21,6 @@ func Unpack(str string) (string, error) {
 	var currentState state = start
 	var result strings.Builder
 	numOfRepeat := 1
-	//if firstCheckString(&str) == true {
-	//	return "", ErrInvalidString
-	//}
 
 	var runeArray = []rune(str)
 
@@ -59,7 +56,7 @@ func Unpack(str string) (string, error) {
 			result.WriteRune(char)
 		case escape:
 			result.WriteRune(char)
-
+			currentState = start
 		}
 
 	}
